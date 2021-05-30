@@ -1,10 +1,7 @@
 require: rt_rubocop_defaults
 
 AllCops:
-  TargetRubyVersion: 2.4
-  SuggestExtensions: false
-  Exclude:
-    - vendor/**/*.rb
+  TargetRubyVersion: 2.6
 
 Layout/LineLength:
   Max: 99
