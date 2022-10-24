@@ -47,7 +47,7 @@ module Repository
       class Mongo
         def find(id:)
           mongo_to_model(collection.find(_id: id).first)
-        rescue
+        rescue StandardError
           nil
         end
 
