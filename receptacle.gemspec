@@ -15,7 +15,11 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/andreaseger/receptacle"
   spec.license = "MIT"
 
-  spec.required_ruby_version = ">= 2.6"
+  spec.required_ruby_version = if RUBY_ENGINE == "jruby"
+                                 ">= 2.6"
+                               else
+                                 ">= 2.7"
+                               end
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
