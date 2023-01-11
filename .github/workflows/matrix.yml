@@ -24,7 +24,7 @@ jobs:
         - ruby-3.1
         - ruby-3.2
         - jruby-9.3.9.0
-        - jruby-9.4.0.0
+        #- jruby-9.4.0.0 not working due to bug: https://github.com/jruby/jruby/issues/7572
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') }}
     steps:
       - uses: actions/checkout@v3
