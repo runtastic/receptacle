@@ -1,19 +1,15 @@
 require: rt_rubocop_defaults
 
 AllCops:
-  TargetRubyVersion: 2.4
-  SuggestExtensions: false
+  TargetRubyVersion: 2.6
+  # vendor directory is used by github actions and causes issues if not excluded here
   Exclude:
-    - vendor/**/*.rb
-
-Layout/LineLength:
-  Max: 99
-  Exclude:
-    - test/*
+    - vendor/bundle/**/*
 
 Metrics/BlockLength:
   Exclude:
     - '*.gemspec'
+    - 'spec/*'
 
 Metrics/AbcSize:
   Exclude:

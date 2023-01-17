@@ -4,7 +4,7 @@
 require "bundler/inline"
 gemfile true do
   source "https://rubygems.org"
-  gem "receptacle", "~>0.3"
+  gem "receptacle", "~> 2"
   gem "mongo"
 end
 require "irb"
