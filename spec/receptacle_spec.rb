@@ -13,6 +13,7 @@ describe Receptacle::Repo do
 
         mediate :find
         mediate :delete
+        mediate :update
 
         wrappers(test_wrappers)
         strategy(test_strategy)
@@ -27,6 +28,10 @@ describe Receptacle::Repo do
 
         def delete(id:) # rubocop:disable Lint/UnusedMethodArgument
           "deleted"
+        end
+
+        def update(id:, &block) # rubocop:disable Lint/UnusedMethodArgument
+          yield + id
         end
       end
     end
@@ -51,6 +56,7 @@ describe Receptacle::Repo do
 
           mediate :find
           mediate :delete
+          mediate :update
 
           strategy(test_strategy)
         end
@@ -61,6 +67,12 @@ describe Receptacle::Repo do
 
         expect(strategy_instance).to have_received(:find)
           .with(10, unscoped: false)
+      end
+
+      context "with block passed" do
+        it "executes the block" do
+          expect(repository.update(id: 1) { 1 }).to eql(2)
+        end
       end
     end
 
@@ -200,6 +212,31 @@ describe Receptacle::Repo do
           it "returns correct value for delete" do
             expect(repository.delete(id: 5)).to eq("deleted")
           end
+        end
+      end
+
+      describe ".update" do
+        let(:wrappers) do
+          [
+            add10_wrapper
+          ]
+        end
+
+        let(:add10_wrapper) do
+          Class.new do
+            def update(id:)
+              yield(id: id + 10)
+            end
+          end
+        end
+
+        before do
+          allow(add10_wrapper).to receive(:update)
+            .and_call_original
+        end
+
+        it "calls the strategy with the output of the wrapper and executes the block in the strategy method" do
+          expect(repository.update(id: 5) { 1 }).to eq(16)
         end
       end
     end
