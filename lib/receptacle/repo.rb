@@ -6,11 +6,11 @@ module Receptacle
   module Repo
     module ClassMethods
       def mediate(method_name)
-        define_singleton_method(method_name) do |*args, **kwargs|
+        define_singleton_method(method_name) do |*args, **kwargs, &block|
           raise Errors::NotConfigured.new(repo: self) unless @strategy
 
           with_wrappers(@wrappers.dup, method_name, *args, **kwargs) do |*sub_args, **sub_kwargs|
-            strategy.new.public_send(method_name, *sub_args, **sub_kwargs)
+            strategy.new.public_send(method_name, *sub_args, **sub_kwargs, &block)
           end
         end
       end
